@@ -13,6 +13,7 @@ CONFIG_PACKAGE_luci-app-smartdns=y
 CONFIG_PACKAGE_luci-app-tailscale-community=y
 CONFIG_PACKAGE_luci-app-wechatpush=y
 CONFIG_PACKAGE_geoip-shell=y
+CONFIG_PACKAGE_sshpass=y
 
 # 雅典娜 LED 点阵屏驱动及插件
 CONFIG_PACKAGE_luci-app-athena-led=y
