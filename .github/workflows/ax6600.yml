@@ -2,7 +2,7 @@
 # Copyright (C) 2026 VIKINGYFY
 
 #CI项目
-name: QCA-ALL
+name: AX6600
 
 #CI计划
 on:
@@ -35,7 +35,7 @@ jobs:
       fail-fast: false
       #max-parallel: 3
       matrix:
-        CONFIG: [IPQ60XX-WIFI-YES]
+        CONFIG: [AX6600]
         SOURCE: [VIKINGYFY/immortalwrt]
         BRANCH: [main]
 
