@@ -1,7 +1,5 @@
 #科学插件调整
-CONFIG_PACKAGE_luci-app-honk=y
-CONFIG_PACKAGE_honk=y
-CONFIG_PACKAGE_vmlinux-btf=y
+CONFIG_PACKAGE_luci-app-nikki=y
 CONFIG_PACKAGE_luci-app-oxidns=y
 #增加插件
 CONFIG_PACKAGE_luci-app-autoreboot=y
