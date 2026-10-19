@@ -1,5 +1,8 @@
 #科学插件调整
 CONFIG_PACKAGE_luci-app-nikki=y
+CONFIG_PACKAGE_luci-app-oxidns=y
+CONFIG_PACKAGE_luci-app-honk=y
+CONFIG_PACKAGE_honk=y
 #增加插件
 CONFIG_PACKAGE_luci-app-autoreboot=y
 #CONFIG_PACKAGE_luci-app-gecoosac=y
@@ -9,7 +12,7 @@ CONFIG_PACKAGE_luci-app-partexp=y
 CONFIG_PACKAGE_luci-app-samba4=y
 #CONFIG_PACKAGE_luci-app-upnp=y
 CONFIG_PACKAGE_luci-app-wolultra=y
-CONFIG_PACKAGE_luci-app-smartdns=y
+
 CONFIG_PACKAGE_luci-app-tailscale-community=y
 CONFIG_PACKAGE_luci-app-wechatpush=y
 CONFIG_PACKAGE_geoip-shell=y
