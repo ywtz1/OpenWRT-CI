@@ -95,10 +95,11 @@ UPDATE_PACKAGE "qmodem-generic" "LianXia233/luci-app-qmodem-generic" "main"
 UPDATE_PACKAGE "luci-app-oxidns" "svenshi/luci-app-oxidns" "main"
 #UPDATE_PACKAGE "luci-app-honk" "QiuSimons/luci-app-honk" "master" "pkg"
 #UPDATE_PACKAGE "honk" "QiuSimons/luci-app-honk" "master" "pkg"
-git clone --depth=1 --single-branch --branch master https://github.com/QiuSimons/luci-app-honk package/honk
-#sed -i '/depends on KERNEL_DEBUG_INFO_BTF/d' .package/honk/honk/Makefile
-sed -i '/HONK_USE_VMLINUX_BTF/d' .package/honk/honk/Makefile
- sed -i '/+@KERNEL_XDP_SOCKETS[[:space:]]\\$/s/\\[[:space:]]*$//' .package/honk/honk/Makefile
+rm -rf ./package/honk 
+git clone --depth=1 --single-branch --branch master https://github.com/QiuSimons/luci-app-honk ./package/honk
+sed -i '/depends on KERNEL_DEBUG_INFO_BTF/d' ./package/honk/honk/Makefile
+sed -i '/HONK_USE_VMLINUX_BTF/d' ./package/honk/honk/Makefile
+ sed -i '/+@KERNEL_XDP_SOCKETS[[:space:]]\\$/s/\\[[:space:]]*$//' ./package/honk/honk/Makefile
 
 #更新软件包版本
 UPDATE_VERSION() {
