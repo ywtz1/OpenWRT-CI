@@ -93,9 +93,9 @@ UPDATE_PACKAGE "netmonitor" "LianXia233/luci-app-netmonitor" "main"
 UPDATE_PACKAGE "qmodem-generic" "LianXia233/luci-app-qmodem-generic" "main"
 
 UPDATE_PACKAGE "luci-app-oxidns" "svenshi/luci-app-oxidns" "main"
-UPDATE_PACKAGE "luci-app-honk" "QiuSimons/luci-app-honk" "master"
-
-sed -i '/depends on KERNEL_DEBUG_INFO_BTF/d' .package/luci-app-honk/honk/Makefile
+UPDATE_PACKAGE "luci-app-honk" "QiuSimons/luci-app-honk" "master" "pkg"
+UPDATE_PACKAGE "honk" "QiuSimons/luci-app-honk" "master" "pkg"
+sed -i '/depends on KERNEL_DEBUG_INFO_BTF/d' .package/honk/Makefile
 
 #更新软件包版本
 UPDATE_VERSION() {
