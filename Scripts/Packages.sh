@@ -95,6 +95,8 @@ UPDATE_PACKAGE "qmodem-generic" "LianXia233/luci-app-qmodem-generic" "main"
 UPDATE_PACKAGE "luci-app-oxidns" "svenshi/luci-app-oxidns" "main"
 #UPDATE_PACKAGE "vmlinux-btf" "QiuSimons/vmlinux-btf" "master"
 #UPDATE_PACKAGE "luci-app-honk" "QiuSimons/luci-app-honk" "master"
+rm -rf package/honk 
+git clone --depth=1 --single-branch --branch master https://github.com/QiuSimons/luci-app-honk package/honk
 
 #更新软件包版本
 UPDATE_VERSION() {
