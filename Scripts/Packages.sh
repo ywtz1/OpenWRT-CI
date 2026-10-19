@@ -98,22 +98,8 @@ UPDATE_PACKAGE "luci-app-oxidns" "svenshi/luci-app-oxidns" "main"
 
 rm -rf package/honk 
 # clone 到 package/honk（和你提供的命令一致）
-git clone --depth=1 --single-branch --branch master https://github.com/QiuSimons/luci-app-honk package/honk
-# 在 package/honk 下查找包含依赖 token 的 Makefile
-TARGET=$(grep -RIl "HONK_USE_VMLINUX_BTF:vmlinux-btf" package/honk 2>/dev/null | head -n1)
-if [ -z "$TARGET" ]; then
-  echo "未找到包含 HONK_USE_VMLINUX_BTF:vmlinux-btf 的 Makefile（在 package/honk 下）"
-  exit 0
-fi
-echo "Patching $TARGET : remove HONK_USE_VMLINUX_BTF:vmlinux-btf"
-
-# 1) 删除 token（含可选前导 +）
-sed -i -E 's/[[:space:]]*\+?HONK_USE_VMLINUX_BTF:vmlinux-btf[[:space:]]*//g' "$TARGET"
-# 2) 删除可能被留下单独的续行反斜杠行
-sed -i -E '/^[[:space:]]*\\[[:space:]]*$/d' "$TARGET"
-# 3) 压缩多空格，去掉重复的 + 号，去掉行尾多余空格
-sed -i -E 's/[[:space:]]{2,}/ /g; s/\+{2,}/+/g; s/[[:space:]]+$//' "$TARGET"
-
+git clone --depth=1 --single-branch --branch master https://github.com/QiuSimons/luci-app-honk .package/honk
+sed -i '/depends on KERNEL_DEBUG_INFO_BTF/d' .package/honk/honk/Makefile
 
 #更新软件包版本
 UPDATE_VERSION() {
