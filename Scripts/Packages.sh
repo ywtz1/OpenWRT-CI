@@ -95,22 +95,25 @@ UPDATE_PACKAGE "qmodem-generic" "LianXia233/luci-app-qmodem-generic" "main"
 UPDATE_PACKAGE "luci-app-oxidns" "svenshi/luci-app-oxidns" "main"
 #UPDATE_PACKAGE "vmlinux-btf" "QiuSimons/vmlinux-btf" "master"
 #UPDATE_PACKAGE "luci-app-honk" "QiuSimons/luci-app-honk" "master"
+
 rm -rf package/honk 
+# clone 到 package/honk（和你提供的命令一致）
 git clone --depth=1 --single-branch --branch master https://github.com/QiuSimons/luci-app-honk package/honk
-# 在克隆后移除 honk Makefile 中的 HONK_USE_VMLINUX_BTF:vmlinux-btf 依赖
-HUNK_MAKEFILE=$(grep -RIl "HONK_USE_VMLINUX_BTF:vmlinux-btf" "$REPO_PATH" 2>/dev/null | head -n1)
-if [ -n "$HUNK_MAKEFILE" ]; then
-  echo "Patching $HUNK_MAKEFILE: remove HONK_USE_VMLINUX_BTF:vmlinux-btf"
-  # 删除依赖 token（带或不带前导 +），并删除仅包含反斜杠的空行，压缩多空格，去掉重复的 + 号
-  sed -i -E 's/[[:space:]]*\+?HONK_USE_VMLINUX_BTF:vmlinux-btf[[:space:]]*//g' "$HUNK_MAKEFILE"
-  sed -i -E 's/[[:space:]]{2,}/ /g' "$HUNK_MAKEFILE"
-  sed -i -E 's/\++/+/g' "$HUNK_MAKEFILE"
-  # 删除只剩反斜杠的行（因为删除 token 可能留下单独的行续行符）
-  sed -i '/^[[:space:]]*\\[[:space:]]*$/d' "$HUNK_MAKEFILE"
-  echo "Patch complete."
-else
-  echo "No Makefile with HONK_USE_VMLINUX_BTF found under $REPO_PATH"
+# 在 package/honk 下查找包含依赖 token 的 Makefile
+TARGET=$(grep -RIl "HONK_USE_VMLINUX_BTF:vmlinux-btf" package/honk 2>/dev/null | head -n1)
+if [ -z "$TARGET" ]; then
+  echo "未找到包含 HONK_USE_VMLINUX_BTF:vmlinux-btf 的 Makefile（在 package/honk 下）"
+  exit 0
 fi
+echo "Patching $TARGET : remove HONK_USE_VMLINUX_BTF:vmlinux-btf"
+
+# 1) 删除 token（含可选前导 +）
+sed -i -E 's/[[:space:]]*\+?HONK_USE_VMLINUX_BTF:vmlinux-btf[[:space:]]*//g' "$TARGET"
+# 2) 删除可能被留下单独的续行反斜杠行
+sed -i -E '/^[[:space:]]*\\[[:space:]]*$/d' "$TARGET"
+# 3) 压缩多空格，去掉重复的 + 号，去掉行尾多余空格
+sed -i -E 's/[[:space:]]{2,}/ /g; s/\+{2,}/+/g; s/[[:space:]]+$//' "$TARGET"
+
 
 #更新软件包版本
 UPDATE_VERSION() {
