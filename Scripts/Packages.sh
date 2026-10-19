@@ -93,12 +93,11 @@ UPDATE_PACKAGE "netmonitor" "LianXia233/luci-app-netmonitor" "main"
 UPDATE_PACKAGE "qmodem-generic" "LianXia233/luci-app-qmodem-generic" "main"
 
 UPDATE_PACKAGE "luci-app-oxidns" "svenshi/luci-app-oxidns" "main"
-#UPDATE_PACKAGE "vmlinux-btf" "QiuSimons/vmlinux-btf" "master"
 #UPDATE_PACKAGE "luci-app-honk" "QiuSimons/luci-app-honk" "master"
 
-rm -rf package/honk 
+rm -rf ./package/honk 
 # clone 到 package/honk（和你提供的命令一致）
-git clone --depth=1 --single-branch --branch master https://github.com/QiuSimons/luci-app-honk .package/honk
+git clone --depth=1 --single-branch --branch master https://github.com/QiuSimons/luci-app-honk ./package/honk
 sed -i '/depends on KERNEL_DEBUG_INFO_BTF/d' .package/honk/honk/Makefile
 
 #更新软件包版本
