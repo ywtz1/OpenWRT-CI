@@ -55,3 +55,10 @@ if [[ "${WRT_TARGET^^}" == *"QUALCOMMAX"* ]]; then
 		echo "qualcommax set up nowifi successfully!"
 	fi
 fi
+# 仅在本项目里调整 qualcommax 设备的 kernel 区大小
+if [[ "${WRT_TARGET^^}" == *"QUALCOMMAX"* ]]; then
+  if [ -f "./target/linux/qualcommax/image/ipq60xx.mk" ]; then
+    sed -i 's/KERNEL_SIZE := 6144k/KERNEL_SIZE := 12288k/' ./target/linux/qualcommax/image/ipq60xx.mk
+    echo "patched qualcommax kernel size to 12M"
+  fi
+fi
