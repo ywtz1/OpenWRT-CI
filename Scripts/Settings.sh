@@ -32,14 +32,6 @@ echo "CONFIG_PACKAGE_luci-theme-$WRT_THEME=y" >> ./.config
 echo "CONFIG_PACKAGE_luci-app-$WRT_THEME-config=y" >> ./.config
 
 
-# --- 强制开启 BTF 相关配置（仅本项目 CI 生效） ---
-grep -q '^CONFIG_DEBUG_INFO=y' ./.config || echo "CONFIG_DEBUG_INFO=y" >> ./.config
-grep -q '^CONFIG_DEBUG_INFO_BTF=y' ./.config || echo "CONFIG_DEBUG_INFO_BTF=y" >> ./.config
-grep -q '^CONFIG_KERNEL_DEBUG_INFO=y' ./.config || echo "CONFIG_KERNEL_DEBUG_INFO=y" >> ./.config
-grep -q '^CONFIG_KERNEL_DEBUG_INFO_BTF=y' ./.config || echo "CONFIG_KERNEL_DEBUG_INFO_BTF=y" >> ./.config
-grep -q '^CONFIG_KERNEL_DEBUG_INFO_BTF_MODULES=y' ./.config || echo "CONFIG_KERNEL_DEBUG_INFO_BTF_MODULES=y" >> ./.config
-grep -q '^CONFIG_KERNEL_BPF=y' ./.config || echo "CONFIG_KERNEL_BPF=y" >> ./.config
-
 
 
 
