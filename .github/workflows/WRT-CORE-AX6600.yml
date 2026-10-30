@@ -278,7 +278,7 @@ jobs:
     name: Roll cache generations
     needs: core
     if: ${{ !inputs.WRT_TEST && needs.core.result == 'success' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     concurrency:
       group: wrt-cache-rollover-${{github.ref}}-${{needs.core.outputs.cache_prefix}}
       cancel-in-progress: false
