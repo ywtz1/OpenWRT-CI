@@ -94,6 +94,8 @@ UPDATE_PACKAGE "qmodem-generic" "LianXia233/luci-app-qmodem-generic" "main"
 
 #UPDATE_PACKAGE "luci-app-athena-led" "liker5092/luci-app-athena-led" "main"
 
+UPDATE_PACKAGE "luci-app-podman" "Zerogiven-OpenWRT-Packages/luci-app-podman" "main"
+
 UPDATE_PACKAGE "luci-app-oxidns" "svenshi/luci-app-oxidns" "main"
 UPDATE_PACKAGE "luci-app-honk" "QiuSimons/luci-app-honk" "master"
 
