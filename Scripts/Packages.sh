@@ -93,7 +93,7 @@ UPDATE_PACKAGE "netmonitor" "LianXia233/luci-app-netmonitor" "main"
 UPDATE_PACKAGE "qmodem-generic" "LianXia233/luci-app-qmodem-generic" "main"
 
 #UPDATE_PACKAGE "luci-app-athena-led" "unraveloop/JDC-AX6600-Athena-LED-Controller" "main"
-UPDATE_PACKAGE "athena-led" "perlyz/JDC-AX6600-Athena-LED-Controller-C" "main" "luci-app-athena-led athena-led"
+UPDATE_PACKAGE "ax6600-athena-led" "perlyz/JDC-AX6600-Athena-LED-Controller-C" "main" 
 
 UPDATE_PACKAGE "luci-app-podman" "Zerogiven-OpenWRT-Packages/luci-app-podman" "main"
 
