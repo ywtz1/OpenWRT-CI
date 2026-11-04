@@ -85,7 +85,8 @@ jobs:
 
           # luci-app-honk
           sudo -E apt -yqq install clang llvm libbpf-dev cmake libclang-dev zstd make perl file binutils git curl xz-utils pkg-config ca-certificates
-          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --no-modify-path . "$HOME/.cargo/env"
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --no-modify-path 
+          . "$HOME/.cargo/env"
 
           # 从 honk/Makefile 的 pin 解析版本
           eval "$(./honk/honk_toolchain.sh)"
