@@ -81,8 +81,9 @@ jobs:
           sudo -E apt -yqq autoremove --purge
           sudo -E apt -yqq autoclean
           sudo -E apt -yqq clean
-          sudo -E apt -yqq install dos2unix libfuse-dev dwarves
-
+          sudo -E apt -yqq install dos2unix libfuse-dev dwarves 
+          #podman
+          sudo -E apt -yqq install libgpg-error-dev libassuan-dev libgpgme-dev libseccomp-dev libbtrfs-dev libdevmapper-dev 
 
           
           sudo bash -c 'bash <(curl -sL https://build-scripts.immortalwrt.org/init_build_environment.sh)'
