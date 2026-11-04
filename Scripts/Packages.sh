@@ -43,7 +43,7 @@ UPDATE_PACKAGE() {
 
 # 调用示例
 # UPDATE_PACKAGE "OpenAppFilter" "destan19/OpenAppFilter" "master" "" "custom_name1 custom_name2"
-# UPDATE_PACKAGE "open-app-filter" "destan19/OpenAppFilter" "master" "" "luci-app-appfilter oaf" 这样会把原有的open-app-filter，luci-app-appfilter，oaf相关组件删除，不会出现coremark错误。
+# UPDATE_PACKAGE "open-app-filter" "destan19/OpenAppFilter" "master" "" "luci-app-appfilter oaf" 这样会把原有的open-app-filter，luci-app-appfilter，oaf相关组件删除，不会出现冲突
 
 # UPDATE_PACKAGE "包名" "项目地址" "项目分支" "pkg，可选，从大杂烩中单独提取包名插件"
 UPDATE_PACKAGE "argon" "sbwml/luci-theme-argon" "openwrt-25.12"
@@ -93,20 +93,47 @@ UPDATE_PACKAGE "netmonitor" "LianXia233/luci-app-netmonitor" "main"
 UPDATE_PACKAGE "qmodem-generic" "LianXia233/luci-app-qmodem-generic" "main"
 
 #UPDATE_PACKAGE "luci-app-athena-led" "unraveloop/JDC-AX6600-Athena-LED-Controller" "main"
-UPDATE_PACKAGE "ax6600-athena-led" "perlyz/JDC-AX6600-Athena-LED-Controller-C" "main" 
+UPDATE_PACKAGE "ax6600-athena-led" "perlyz/JDC-AX6600-Athena-LED-Controller-C" "main"
 
 UPDATE_PACKAGE "luci-app-podman" "Zerogiven-OpenWRT-Packages/luci-app-podman" "main"
 
 UPDATE_PACKAGE "luci-app-oxidns" "svenshi/luci-app-oxidns" "main"
 UPDATE_PACKAGE "luci-app-honk" "QiuSimons/luci-app-honk" "master"
 
-#rm -rf ./package/honk 
-#git clone --depth=1 --single-branch --branch master https://github.com/QiuSimons/luci-app-honk ./package/honk
-#sed -i '/depends on KERNEL_DEBUG_INFO_BTF/d' ./package/honk/honk/Makefile
-#sed -i '/HONK_USE_VMLINUX_BTF/d' ./package/honk/honk/Makefile
-#sed -i '/+@KERNEL_XDP_SOCKETS[[:space:]]\\$/s/\\[[:space:]]*$//' ./package/honk/honk/Makefile
+# GPGME 的 gpgme-tool 和 gpgme-json 是主机端/调试用命令，OpenWrt 的 Podman 只需要 libgpgme。
+# 禁止构建这两个不打包的工具，避免交叉编译它们时误用宿主机 glibc 头文件。
+GPGME_FEED_DIR="./feeds/packages/libs/gpgme"
+if [ -f "$GPGME_FEED_DIR/Makefile" ]; then
+	mkdir -p "$GPGME_FEED_DIR/patches"
+	cat > "$GPGME_FEED_DIR/patches/100-disable-unneeded-tools.patch" <<'PATCH'
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -36,5 +36,3 @@
+ nodist_include_HEADERS = gpgme.h
+ 
+-bin_PROGRAMS = gpgme-tool gpgme-json
+-
+ if BUILD_W32_GLIB
+@@ -105,12 +103,5 @@
+ # We use a global CFLAGS setting for all libraries
+ # versions, because then every object file is only compiled once.
+ AM_CFLAGS = @LIBASSUAN_CFLAGS@ @GPG_ERROR_CFLAGS@ @GLIB_CFLAGS@
+ 
+-gpgme_tool_SOURCES = gpgme-tool.c argparse.c argparse.h
+-gpgme_tool_LDADD = libgpgme.la @LIBASSUAN_LIBS@ @GPG_ERROR_LIBS@
+-
+-gpgme_json_SOURCES = gpgme-json.c cJSON.c cJSON.h
+-gpgme_json_LDADD = -lm libgpgme.la $(GPG_ERROR_LIBS)
+-
+-
+ if HAVE_W32_SYSTEM
+PATCH
+else
+	echo "ERROR: GPGME package feed not found at $GPGME_FEED_DIR"
+	exit 1
+fi
 
-#更新软件包版本
+# 更新软件包版本
 UPDATE_VERSION() {
 	local PKG_NAME=$1
 	local PKG_MARK=${2:-false}
