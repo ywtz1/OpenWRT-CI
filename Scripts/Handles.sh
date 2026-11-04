@@ -44,19 +44,22 @@ FIX "natmapt" "$PACKAGE_PATH/luci-app-natmapt" sed -i "s/network/services/g" \
 FIX "rust" "$FEEDS_PATH/packages/lang/rust" sed -i 's/ci-llvm=true/ci-llvm=false/g' \
 	"$FEEDS_PATH/packages/lang/rust/Makefile"
 
-# Packages.sh first writes a two-hunk GPGME patch, but the second hunk does
-# not match the pinned 1.24.2 Makefile.am. Replace it with the single hunk
-# that removes only the unused command-line tool targets. Keep libgpgme intact.
+# Packages.sh creates an initial GPGME patch; replace it with a valid minimal
+# patch that disables only the unneeded CLI programs. Keep libgpgme for Podman.
 GPGME_FEED_DIR="$FEEDS_PATH/packages/libs/gpgme"
 if [ -f "$GPGME_FEED_DIR/Makefile" ]; then
 	mkdir -p "$GPGME_FEED_DIR/patches"
 	cat > "$GPGME_FEED_DIR/patches/100-disable-unneeded-tools.patch" <<'PATCH'
 --- a/src/Makefile.am
 +++ b/src/Makefile.am
-@@ -36,5 +36,3 @@
-  nodist_include_HEADERS = gpgme.h
-  
- -bin_PROGRAMS = gpgme-tool gpgme-json
- -
- PATCH
+@@ -35,7 +35,5 @@
+ m4data_DATA = gpgme.m4
+ nodist_include_HEADERS = gpgme.h
+ 
+-bin_PROGRAMS = gpgme-tool gpgme-json
+-
+ if BUILD_W32_GLIB
+ ltlib_gpgme_glib = libgpgme-glib.la
+ else
+PATCH
 fi
