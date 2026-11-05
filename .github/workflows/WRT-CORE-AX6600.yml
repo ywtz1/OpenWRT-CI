@@ -233,7 +233,6 @@ jobs:
       - name: Compile Firmware
         if: ${{ !inputs.WRT_TEST }}
         run: |
-          sed -i 's/--enable-languages=""/--enable-languages="" \\\n\t--disable-gpgme-tool/' ./wrt/feeds/packages/libs/gpgme/Makefile
           
           cd ./wrt/
           
