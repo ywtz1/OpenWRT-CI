@@ -100,8 +100,8 @@ UPDATE_PACKAGE "luci-app-podman" "Zerogiven-OpenWRT-Packages/luci-app-podman" "m
 UPDATE_PACKAGE "luci-app-oxidns" "svenshi/luci-app-oxidns" "main"
 #UPDATE_PACKAGE "luci-app-honk" "QiuSimons/luci-app-honk" "master"
 UPDATE_PACKAGE "daeuniverse" "daeuniverse/openwrt-packages" "main"
-sed -i -E 's/[[:space:]]+\+(vmlinux-btf|v2ray-geoip|v2ray-geosite)//g' ./package/daeuniverse/honk/Makefile
-
+sed -i -E 's/[[:space:]]+\+(v2ray-geoip|v2ray-geosite)//g' ./package/daeuniverse/honk/Makefile
+sed -i -E 's/\+vmlinux-btf([[:space:]]|$)/+vmlinux-btf-builtin\1/g' ./package/daeuniverse/honk/Makefile
 # 更新软件包版本
 UPDATE_VERSION() {
 	local PKG_NAME=$1
