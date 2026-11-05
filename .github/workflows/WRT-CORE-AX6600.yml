@@ -153,7 +153,7 @@ jobs:
           path: |
             ./wrt/.ccache
             ./wrt/staging_dir/host*
-            ./wrt/staging_dir/tool*
+           # ./wrt/staging_dir/tool*
 
       - name: Prepare Restored Build Cache
         if: ${{ !inputs.WRT_TEST && steps.cache-restore.outputs.cache-matched-key != '' }}
@@ -234,7 +234,7 @@ jobs:
           path: |
             ./wrt/.ccache
             ./wrt/staging_dir/host*
-            ./wrt/staging_dir/tool*
+           # ./wrt/staging_dir/tool*
 
       - name: Machine Information
         run: |
