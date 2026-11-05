@@ -233,7 +233,7 @@ jobs:
       - name: Compile Firmware
         if: ${{ !inputs.WRT_TEST }}
         run: |
-          sed -i '/include $(INCLUDE_DIR)\/package.mk/i TARGET_CFLAGS += -U_FORTIFY_SOURCE' ./feeds/packages/libs/gpgme/Makefile
+          sed -i '/include $(INCLUDE_DIR)\/package.mk/i TARGET_CFLAGS += -U_FORTIFY_SOURCE' feeds/packages/libs/gpgme/Makefile
           
           cd ./wrt/
           
