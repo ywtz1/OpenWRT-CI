@@ -233,7 +233,10 @@ jobs:
       - name: Compile Firmware
         if: ${{ !inputs.WRT_TEST }}
         run: |
+          sed -i '/include $(INCLUDE_DIR)\/host-build.mk/i HOST_CONFIGURE_VARS += ac_cv_type_error_t=yes' ./feeds/packages/libs/gpgme/Makefile
+          
           cd ./wrt/
+          
           mkdir -p $GITHUB_WORKSPACE/build-reports
           make -j$(nproc) BUILD_TIME_LOG="$GITHUB_WORKSPACE/build-reports/parallel.tsv" || \
             make -j1 V=s BUILD_TIME_LOG="$GITHUB_WORKSPACE/build-reports/serial.tsv"
