@@ -103,25 +103,6 @@ UPDATE_PACKAGE "luci-app-honk" "QiuSimons/luci-app-honk" "master"
 #sed -i -E 's/[[:space:]]+\+(vmlinux-btf|v2ray-geoip|v2ray-geosite)//g' ./package/openwrt-packages/honk/Makefile
 #sed -i -E 's/\+vmlinux-btf([[:space:]]|$)/+vmlinux-btf-builtin\1/g' ./package/openwrt-packages/honk/Makefile
 
-sudo apt-get install -y clang llvm libbpf-dev cmake libclang-dev zstd \
-make perl file binutils git curl xz-utils pkg-config ca-certificates
-
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --no-modify-path
-. "$HOME/.cargo/env"
-
-curl -fsSL -o ./tmp/honk_toolchain.sh "https://raw.githubusercontent.com/QiuSimons/luci-app-honk/refs/heads/master/honk/honk_toolchain.sh"
-# 从 honk/Makefile 的 pin 解析版本
-eval "$(./tmp/honk_toolchain.sh)"
-
-curl -fsSL -o /tmp/bpf-linker.tar.zst \
-"https://github.com/aya-rs/bpf-linker/releases/download/v${BPF_LINKER_VERSION}/bpf-linker-x86_64-unknown-linux-musl.tar.zst"
-echo "${BPF_LINKER_SHA256}  /tmp/bpf-linker.tar.zst" | sha256sum -c -
-sudo tar --zstd -xf /tmp/bpf-linker.tar.zst -C /usr/local/bin
-
-curl -fsSL -o /tmp/zig.tar.xz \
-"https://ziglang.org/download/${ZIG_VERSION}/zig-x86_64-linux-${ZIG_VERSION}.tar.xz"
-sudo tar -xJf /tmp/zig.tar.xz -C /usr/local
-sudo ln -sf "/usr/local/zig-x86_64-linux-${ZIG_VERSION}/zig" /usr/local/bin/zig
 
 # 更新软件包版本
 UPDATE_VERSION() {
