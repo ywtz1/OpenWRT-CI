@@ -152,8 +152,8 @@ jobs:
           restore-keys: ${{env.WRT_CACHE_PREFIX}}-
           path: |
             ./wrt/.ccache
-            #./wrt/staging_dir/host*
-           # ./wrt/staging_dir/tool*
+            ./wrt/staging_dir/host*
+            ./wrt/staging_dir/tool*
 
       - name: Prepare Restored Build Cache
         if: ${{ !inputs.WRT_TEST && steps.cache-restore.outputs.cache-matched-key != '' }}
@@ -220,10 +220,6 @@ jobs:
         if: ${{ !inputs.WRT_TEST }}
         run: |
           cd ./wrt/
-          make package/feeds/packages/gpgme/clean
-
-          make package/feeds/packages/gpgme/compile V=s
-
           make -j$(nproc) || make -j1 V=s
 
       - name: Save Build Cache
@@ -233,8 +229,8 @@ jobs:
           key: ${{env.WRT_CACHE_KEY}}
           path: |
             ./wrt/.ccache
-            #./wrt/staging_dir/host*
-           # ./wrt/staging_dir/tool*
+            ./wrt/staging_dir/host*
+            ./wrt/staging_dir/tool*
 
       - name: Machine Information
         run: |
