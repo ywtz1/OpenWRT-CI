@@ -100,38 +100,6 @@ UPDATE_PACKAGE "luci-app-podman" "Zerogiven-OpenWRT-Packages/luci-app-podman" "m
 UPDATE_PACKAGE "luci-app-oxidns" "svenshi/luci-app-oxidns" "main"
 UPDATE_PACKAGE "luci-app-honk" "QiuSimons/luci-app-honk" "master"
 
-# GPGME 的 gpgme-tool 和 gpgme-json 是主机端/调试用命令，OpenWrt 的 Podman 只需要 libgpgme。
-# 禁止构建这两个不打包的工具，避免交叉编译它们时误用宿主机 glibc 头文件。
-GPGME_FEED_DIR="./feeds/packages/libs/gpgme"
-if [ -f "$GPGME_FEED_DIR/Makefile" ]; then
-	mkdir -p "$GPGME_FEED_DIR/patches"
-	cat > "$GPGME_FEED_DIR/patches/100-disable-unneeded-tools.patch" <<'PATCH'
---- a/src/Makefile.am
-+++ b/src/Makefile.am
-@@ -36,5 +36,3 @@
- nodist_include_HEADERS = gpgme.h
- 
--bin_PROGRAMS = gpgme-tool gpgme-json
--
- if BUILD_W32_GLIB
-@@ -105,12 +103,5 @@
- # We use a global CFLAGS setting for all libraries
- # versions, because then every object file is only compiled once.
- AM_CFLAGS = @LIBASSUAN_CFLAGS@ @GPG_ERROR_CFLAGS@ @GLIB_CFLAGS@
- 
--gpgme_tool_SOURCES = gpgme-tool.c argparse.c argparse.h
--gpgme_tool_LDADD = libgpgme.la @LIBASSUAN_LIBS@ @GPG_ERROR_LIBS@
--
--gpgme_json_SOURCES = gpgme-json.c cJSON.c cJSON.h
--gpgme_json_LDADD = -lm libgpgme.la $(GPG_ERROR_LIBS)
--
--
- if HAVE_W32_SYSTEM
-PATCH
-else
-	echo "ERROR: GPGME package feed not found at $GPGME_FEED_DIR"
-	exit 1
-fi
 
 # 更新软件包版本
 UPDATE_VERSION() {
