@@ -98,8 +98,8 @@ UPDATE_PACKAGE "ax6600-athena-led" "perlyz/JDC-AX6600-Athena-LED-Controller-C" "
 UPDATE_PACKAGE "luci-app-podman" "Zerogiven-OpenWRT-Packages/luci-app-podman" "main"
 
 UPDATE_PACKAGE "luci-app-oxidns" "svenshi/luci-app-oxidns" "main"
-#UPDATE_PACKAGE "luci-app-honk" "QiuSimons/luci-app-honk" "master"
-UPDATE_PACKAGE "daeuniverse" "daeuniverse/openwrt-packages" "main" 
+UPDATE_PACKAGE "luci-app-honk" "QiuSimons/luci-app-honk" "master"
+#UPDATE_PACKAGE "daeuniverse" "daeuniverse/openwrt-packages" "main" 
 sed -i -E 's/[[:space:]]+\+(vmlinux-btf|v2ray-geoip|v2ray-geosite)//g' ./package/openwrt-packages/honk/Makefile
 #sed -i -E 's/\+vmlinux-btf([[:space:]]|$)/+vmlinux-btf-builtin\1/g' ./package/openwrt-packages/honk/Makefile
 
