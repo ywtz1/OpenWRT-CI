@@ -230,16 +230,7 @@ jobs:
 
           make download -j$(nproc)
           
-      - name: Prepare Prebuilt Podman
-        if: ${{ !inputs.WRT_TEST }}
-        run: |
-          cd ./wrt/
 
-          # 编译 APK 主机工具，不编译 Podman
-          make package/system/apk/host/compile -j$(nproc)
-
-          # 下载官方 APK 并注入本地软件包仓库
-          bash "$GITHUB_WORKSPACE/Scripts/PrebuiltAPK.sh"
           
       - name: Compile Firmware
         if: ${{ !inputs.WRT_TEST }}
