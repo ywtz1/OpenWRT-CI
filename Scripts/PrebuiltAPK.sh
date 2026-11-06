@@ -38,7 +38,7 @@ APK_ARGS=(
     --allow-untrusted
     --arch "$ARCH"
     --cache-dir "$CACHE"
-    --logfile "$LOG"
+    --no-logfile
     --repositories-file /dev/null
     --repository "$BASE_REPO"
     --repository "$PACKAGES_REPO"
