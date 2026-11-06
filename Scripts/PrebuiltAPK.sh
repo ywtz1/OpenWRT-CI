@@ -27,18 +27,29 @@ if [ ! -x "$APK" ]; then
     exit 1
 fi
 
+
+# APK 仓库缓存目录
+CACHE="$TMP/apk-cache"
+mkdir -p "$CACHE"
+
 # APK 仓库参数
 APK_ARGS=(
     --allow-untrusted
     --arch "$ARCH"
+    --cache-dir "$CACHE"
     --repositories-file /dev/null
     --repository "$BASE_REPO"
     --repository "$PACKAGES_REPO"
 )
 
-echo "[1/4] Download Podman dependencies..."
+echo "[1/5] Update official OpenWrt APK indexes..."
 
-# 先下载用户态依赖及其递归依赖
+# 先更新仓库索引
+"$APK" "${APK_ARGS[@]}" update
+
+echo "[2/5] Download Podman dependencies..."
+
+# 下载 Podman 相关用户态依赖
 "$APK" "${APK_ARGS[@]}" fetch \
     --recursive \
     --output "$TMP" \
@@ -53,14 +64,15 @@ echo "[1/4] Download Podman dependencies..."
     catatonit \
     crun
 
-echo "[2/4] Download Podman..."
+echo "[3/5] Download Podman..."
 
-# Podman 本体单独下载，不递归拉取内核模块
+# 下载 Podman 本体
 "$APK" "${APK_ARGS[@]}" fetch \
     --output "$TMP" \
     podman
 
-echo "[3/4] Copy APK packages..."
+
+echo "[4/5] Copy APK packages..."
 
 # 不使用官方内核模块，保留 LibWrt 自己编译的 kmod
 rm -f "$TMP"/kmod-*.apk
@@ -74,7 +86,7 @@ if ! ls "$OUT"/podman-*.apk >/dev/null 2>&1; then
     exit 1
 fi
 
-echo "[4/4] Add Podman to rootfs install list..."
+echo "[5/5] Add Podman to rootfs install list..."
 
 # 修改 LibWrt 的 rootfs 安装流程
 python3 <<'PY'
