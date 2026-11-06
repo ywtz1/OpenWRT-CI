@@ -30,7 +30,8 @@ fi
 CACHE="$TMP/apk-cache"
 LOG="$TMP/apk.log"
 
-mkdir -p "$CACHE"
+sudo mkdir -p "$CACHE" "$TMP"
+sudo chown -R "$(id -u):$(id -g)" "$CACHE" "$TMP"
 touch "$LOG"
 
 APK_ARGS=(
@@ -51,7 +52,7 @@ echo "[1/5] Update official OpenWrt APK indexes..."
 echo "[2/5] Download Podman dependencies..."
 
 # 下载 Podman 相关用户态依赖
-"$APK" "${APK_ARGS[@]}" fetch \
+sudo  "$APK" "${APK_ARGS[@]}" fetch \
     --recursive \
     --output "$TMP" \
     conmon \
@@ -68,7 +69,7 @@ echo "[2/5] Download Podman dependencies..."
 echo "[3/5] Download Podman..."
 
 # 下载 Podman 本体
-"$APK" "${APK_ARGS[@]}" fetch \
+sudo "$APK" "${APK_ARGS[@]}" fetch \
     --output "$TMP" \
     podman
 
@@ -76,7 +77,7 @@ echo "[3/5] Download Podman..."
 echo "[4/5] Copy APK packages..."
 
 # 不使用官方内核模块，保留 LibWrt 自己编译的 kmod
-rm -f "$TMP"/kmod-*.apk
+sudo rm -f "$TMP"/kmod-*.apk
 
 find "$TMP" -maxdepth 1 -type f -name '*.apk' \
     -exec cp -f {} "$OUT/" \;
