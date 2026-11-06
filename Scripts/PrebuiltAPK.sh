@@ -27,16 +27,17 @@ if [ ! -x "$APK" ]; then
     exit 1
 fi
 
-
-# APK 仓库缓存目录
 CACHE="$TMP/apk-cache"
-mkdir -p "$CACHE"
+LOG="$TMP/apk.log"
 
-# APK 仓库参数
+mkdir -p "$CACHE"
+touch "$LOG"
+
 APK_ARGS=(
     --allow-untrusted
     --arch "$ARCH"
     --cache-dir "$CACHE"
+    --logfile "$LOG"
     --repositories-file /dev/null
     --repository "$BASE_REPO"
     --repository "$PACKAGES_REPO"
