@@ -96,7 +96,7 @@ UPDATE_PACKAGE "qmodem-generic" "LianXia233/luci-app-qmodem-generic" "main"
 UPDATE_PACKAGE "ax6600-athena-led" "perlyz/JDC-AX6600-Athena-LED-Controller-C" "main"
 
 UPDATE_PACKAGE "luci-app-podman" "Zerogiven-OpenWRT-Packages/luci-app-podman" "main"
-sed -i -E '/^[[:space:]]*PKG_BUILD_DEPENDS[[:space:]]*:?=/d'    ./package/luci-app-podman/Makefile
+#sed -i -E '/^[[:space:]]*PKG_BUILD_DEPENDS[[:space:]]*:?=/d'    ./package/luci-app-podman/Makefile
 
 UPDATE_PACKAGE "luci-app-oxidns" "svenshi/luci-app-oxidns" "main"
 UPDATE_PACKAGE "luci-app-honk" "QiuSimons/luci-app-honk" "master"
