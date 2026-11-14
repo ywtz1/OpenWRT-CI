@@ -93,7 +93,7 @@ jobs:
 
 
           #podman
-          sudo -E apt -yqq install libseccomp-dev libbtrfs-dev libdevmapper-dev 
+          sudo apt-get  install -y  libseccomp-dev libbtrfs-dev libdevmapper-dev 
 
           sudo timedatectl set-timezone "Asia/Shanghai"
 
