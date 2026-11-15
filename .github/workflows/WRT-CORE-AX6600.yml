@@ -178,6 +178,29 @@ jobs:
           cd ./wrt/
 
           ./scripts/feeds update -a
+          
+          # 固定使用目标 staging 中的 gpgrt-config，避免 configure 选中 Ubuntu 主机版本
+          python3 - <<'PY'
+          from pathlib import Path
+
+          makefile = Path("feeds/packages/libs/gpgme/Makefile")
+          if not makefile.exists():
+              raise SystemExit(f"找不到 GPGME Makefile: {makefile}")
+
+          content = makefile.read_text()
+          fix = 'CONFIGURE_VARS += ac_cv_path_GPGRT_CONFIG="$(STAGING_DIR)/usr/bin/gpgrt-config"\n'
+
+          if "ac_cv_path_GPGRT_CONFIG" not in content:
+              anchor = "include $(INCLUDE_DIR)/package.mk\n"
+              if anchor not in content:
+                  raise SystemExit("GPGME Makefile 中找不到 package.mk include 行")
+              content = content.replace(anchor, anchor + "\n" + fix, 1)
+              makefile.write_text(content)
+              print("已添加 GPGME target gpgrt-config 修复")
+          else:
+              print("GPGME Makefile 已包含 gpgrt-config 设置，跳过")
+          PY
+
           ./scripts/feeds install -a
 
       - name: Custom Packages
